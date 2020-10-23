@@ -7,4 +7,3 @@ Needs socket server on machine side. Will document in near future
 
 - Suggestive commands (gcode goes autocom plete)
 - Visualizing gcode
--
