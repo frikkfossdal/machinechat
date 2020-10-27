@@ -2,26 +2,23 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 export default function Dialog(props) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    const commandPck = {type: "home()", coord: data}
+    props.newCom(commandPck)
+    props.ok();
   };
-  if (props.visible.showQuery === false) {
+
+  if (props.visible.extractMode === false) {
     return null;
   } else {
     return (
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="text"
-            autoFocus
-            placeholder="x"
-            name="coord.x"
-            ref={register}
-          />
-          <input type="text2" placeholder="y" name="coord.y" ref={register} />
-          <input type="submit" />
+        <form  onSubmit={handleSubmit(onSubmit)}>
+          <input  name="x" ref={register} />
+          <input name="y" ref={register} />
+          <button style = {{display: "none"}} type="submit">Submit</button>
         </form>
       </div>
     );

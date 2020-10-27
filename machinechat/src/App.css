@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
 body {
   font-family: "Space Mono", monospace;
+  background: black;
 }
 .App {
   display: flex;
@@ -15,14 +16,16 @@ body {
 }
 
 .react-autosuggest__input {
-  width: 240px;
-  height: 30px;
+  background: black;
+  width: 350px;
+  height: 50px;
   padding: 10px 20px;
   font-family: "Space Mono", monospace;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 24px;
   border: 1px solid #aaa;
   border-radius: 4px;
+  color: white;
 }
 
 .react-autosuggest__input--focused {
@@ -41,13 +44,14 @@ body {
 .react-autosuggest__suggestions-container--open {
   display: block;
   position: absolute;
-  top: 51px;
+  top: 75px;
   width: 280px;
   border: 1px solid #aaa;
-  background-color: #fff;
+  background-color: black;
+  color: white;
   font-family: "Space Mono", monospace;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 24px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   z-index: 2;
@@ -65,5 +69,5 @@ body {
 }
 
 .react-autosuggest__suggestion--highlighted {
-  background-color: #ddd;
+  background-color: tomato;
 }

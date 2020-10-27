@@ -1,33 +1,6 @@
 import React from "react";
 import Autosuggest from "react-autosuggest";
-
-const languages = [
-  {
-    name: "homeY",
-    params: {},
-  },
-  {
-    name: "homeX",
-  },
-  {
-    name: "homeAll",
-  },
-  {
-    name: "showBoundry",
-  },
-  {
-    name: "loop",
-  },
-  {
-    name: "GoTo()",
-  },
-  {
-    name: "Circle(x,y)",
-  },
-  {
-    name: "polyline",
-  },
-];
+import { Ops } from "./Ops.js";
 
 const getSuggestions = (value) => {
   const inputValue = value.trim().toLowerCase();
@@ -35,7 +8,7 @@ const getSuggestions = (value) => {
 
   return inputLength === 0
     ? []
-    : languages.filter(
+    : Ops.filter(
         (lang) => lang.name.toLowerCase().slice(0, inputLength) === inputValue
       );
 };
@@ -52,6 +25,11 @@ class Auto extends React.Component {
       suggestions: [],
     };
   }
+
+  onSelection = () => {
+    var value = Ops.filter((command) => command.name == this.state.value);
+    this.props.ok(value);
+  };
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue,
@@ -79,25 +57,24 @@ class Auto extends React.Component {
       suggestions: [],
     });
   };
-  sendCommand = () => {
-    console.log(this.state);
-  };
   render() {
     const { value, suggestions } = this.state;
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: "Command",
+      placeholder: "type a command",
       value,
       onChange: this.onChange,
+      disabled: false,
     };
+
     return (
       <div onKeyDown={(e) => this.onKeyPressed(e)}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          onSuggestionSelected={this.props.ok}
+          onSuggestionSelected={() => this.onSelection()}
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
