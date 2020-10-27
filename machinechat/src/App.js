@@ -1,16 +1,11 @@
-import React from 'react';
-import Auto from './Auto'
-import Coms from './Coms'
+import React from "react";
+import Auto from "./Auto";
+import Input from "./Input";
 
-import './App.css';
+import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <Coms/>
-      <Auto/>
-    </div>
-  );
+  return <div className="App">{/* <Coms /> */ <Input />}</div>;
 }
 
 export default App;

@@ -7,16 +7,21 @@ class Coms extends React.Component{
         this.state = {
             connected: true
         }
-        this.socket = io('localhost:8080')
+        
+        
+    }
+
+    componentDidMount(){
         console.log(this.socket)
+        //const socket = io('localhost:8080')
     }
 
     render(){
         return(
             <div>
-                <a>
+                {/* <a>
                 Coms is: {this.state.connected}
-                </a>
+                </a> */}
                 </div>
         )
     }
