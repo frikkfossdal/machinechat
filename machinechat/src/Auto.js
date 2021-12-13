@@ -1,87 +1,123 @@
 import React from "react";
-import Autosuggest from "react-autosuggest";
-import { Ops } from "./Ops.js";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import { blue, blueGrey } from "@material-ui/core/colors";
 
-const getSuggestions = (value) => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
+const filter = createFilterOptions();
 
-  return inputLength === 0
-    ? []
-    : Ops.filter(
-        (lang) => lang.name.toLowerCase().slice(0, inputLength) === inputValue
-      );
-};
+export default function Auto() {
+  const [value, setValue] = React.useState(null);
+  const [open, toggleOpen] = React.useState(false);
 
-const getSuggestionValue = (suggestion) => suggestion.name;
+  const [dialogValues, setDialogValues] = React.useState([]);
 
-const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
-
-class Auto extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: "",
-      suggestions: [],
-    };
-  }
-
-  onSelection = () => {
-    var value = Ops.filter((command) => command.name == this.state.value);
-    this.props.ok(value);
-  };
-  onChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue,
-    });
-  };
-  // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value),
-    });
+  const handleClose = () => {
+    // setDialogValue({ title: "", year: "" });
+    toggleOpen(false);
   };
 
-  onKeyPressed(e) {
-    if (e.key == "Enter") {
-      this.setState({
-        value: "",
-      });
-    }
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(event);
 
-  // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: [],
-    });
+    // setValue({
+    //   title: dialogValues.title,
+    //   year: parseInt(dialogValues.year, 10),
+    // });
+    handleClose();
   };
-  render() {
-    const { value, suggestions } = this.state;
 
-    // Autosuggest will pass through all these props to the input.
-    const inputProps = {
-      placeholder: "type a command",
-      value,
-      onChange: this.onChange,
-      disabled: false,
-    };
+  const makeQuery = () => {
+    return dialogValues.map((d) => (
+      <TextField id={d.name} label={d.name} type="number" />
+    ));
+  };
 
-    return (
-      <div onKeyDown={(e) => this.onKeyPressed(e)}>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          onSuggestionSelected={() => this.onSelection()}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-        />
-      </div>
-    );
-  }
+  return (
+    <React.Fragment>
+      <Autocomplete
+        id="combo-box-demo"
+        options={data}
+        getOptionLabel={(option) => option.title}
+        style={{ width: 300, color: "tomato" }}
+        renderInput={(params) => (
+          <TextField {...params} label="enter command" variant="outlined" />
+        )}
+        onChange={(event, v) => {
+          console.log(dialogValues);
+          if (v.askFor != null) {
+            setDialogValues(v.askFor);
+            toggleOpen(true);
+          } else {
+            setValue(v);
+          }
+        }}
+        freeSolo
+      />
+
+      {/* handle new commands */}
+      <Dialog open={open}>
+        <form
+          onSubmit={(event, v) => {
+            event.preventDefault();
+            console.log(v);
+          }}
+        >
+          <DialogTitle id="form-dialog-title">Add a new film</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Is it working?</DialogContentText>
+            {makeQuery()}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button type="submit" color="primary">
+              Add
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </React.Fragment>
+  );
 }
 
-export default Auto;
+const data = [
+  {
+    title: "goTo",
+    askFor: [
+      { name: "x", value: "" },
+      { name: "y", value: "" },
+      { name: "z", value: "" },
+      { name: "speed", value: 4500 },
+    ],
+  },
+  { title: "homeX" },
+  { title: "homeY" },
+  { title: "homeZ" },
+  { title: "goTo()" },
+  {
+    title: "zigzag",
+    askFor: [
+      { name: "x", value: "" },
+      { name: "y", value: "" },
+      { name: "z", value: "" },
+    ],
+  },
+  {
+    title: "loop",
+    askFor: [
+      { name: "x_direction", value: "" },
+      { name: "y_direction", value: "" },
+      { name: "stepover", value: "" },
+    ],
+  },
+];

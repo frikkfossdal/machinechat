@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Auto from "./Auto";
-import Dialog from "./Dialog";
+
 import Queue from "./Queue";
 
 class Input extends React.Component {
@@ -8,15 +8,20 @@ class Input extends React.Component {
     super();
     this.state = {
       extractMode: false,
-      currentQuery: "",
-      commands: [],
+      commands: [
+        { type: "home", code: 2321 },
+        { type: "home", code: 3212 },
+        { type: "home", code: 5421 },
+      ],
     };
   }
-  joke(data) {
-    this.setState({ currentQuery: data });
-  }
-  goIntoQueryMode(d) {
-    this.setState({ extractMode: true });
+  getSuggestion(d) {
+    if (d.subData != undefined) {
+      this.setState({ extractMode: true });
+    } else {
+      this.addCommand(d);
+      console.log(this.state);
+    }
   }
   exitQueryMode() {
     this.setState({ extractMode: false });
@@ -31,12 +36,7 @@ class Input extends React.Component {
   render() {
     return (
       <div>
-        <Auto ok={this.goIntoQueryMode.bind(this)} />
-        <Dialog
-          visible={this.state}
-          ok={this.exitQueryMode.bind(this)}
-          newCom={this.addCommand.bind(this)}
-        />
+        <Auto addCommand={this.addCommand.bind(this)} />
         <Queue commands={this.state.commands} />
       </div>
     );
