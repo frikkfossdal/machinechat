@@ -7,6 +7,7 @@ In short, its a tool that allows users to generate and test automated motion in 
 ## Install
 
 1. Clone repository
-2. Run npm install
-3. Navigate to localhost:3000 in your favorite browser
-4. Move machine
+2. open terminal, navigate to project root, run npm install
+3. Run npm start
+4. Navigate to localhost:3000 in your favorite browser
+5. Start typing
