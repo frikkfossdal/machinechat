@@ -5,5 +5,5 @@ Needs socket server on machine side. Will document in near future
 
 ## Goals
 
-- Suggestive commands (gcode goes autocom plete)
+- Suggestive commands (gcode goes autocomplete)
 - Visualizing gcode
