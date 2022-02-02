@@ -9,4 +9,4 @@ In short, its a tool that allows users to generate and test automated motion in 
 1. Clone repository
 2. Run npm install
 3. Navigate to localhost:3000 in your favorite browser
-4. Make some machine movements
+4. Move machine
